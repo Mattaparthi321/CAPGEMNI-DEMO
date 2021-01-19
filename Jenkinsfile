@@ -1,6 +1,6 @@
 pipeline {
 environment {
-registry = "mattaparthi321 / ubuntu1604devopsy"
+registry = "mattaparthi321/ubuntu1604devops"
 registryCredential = 'dockerhub_id'
 dockerImage = ''
 }
@@ -8,7 +8,7 @@ agent any
 stages {
 stage('Cloning our Git') {
 steps {
-git 'https://github.com/YourGithubAccount/YourGithubRepository.git'
+git 'https://github.com/Mattaparthi321/CAPGEMNI-DEMO.git'
 }
 }
 stage('Building our image') {
