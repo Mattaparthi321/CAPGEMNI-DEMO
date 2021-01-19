@@ -1,30 +1,36 @@
 pipeline {
-	environment {
-		registry = "mattaparthi321/ubuntu1604devops"
-		
-		
-		registryCredential = 'dockerhub'
-		dockerImage = ''
-		dockerRunCommand = 'docker run -d -p 8080:8080 -name myapp mattaparthi321/ubuntu1604devops'
-	}
-	agent any
-	stages {
-		stage("Building docker image") { 
-			steps {
-				script {
-					dockerImage = docker.build registry + ":$BUILD_NUMBER"
-				}
-			}
-		}
-		stage("Pushing image to DockerHub") { 
-			steps {
-				script {
-					docker.withRegistry( '', registryCredential ) {
-						dockerImage.push()
-						dockerImage.push( 'latest' )
-					}
-				}
-			}
-		}
-	}
+environment {
+registry = "mattaparthi321 / ubuntu1604devopsy"
+registryCredential = 'dockerhub_id'
+dockerImage = ''
+}
+agent any
+stages {
+stage('Cloning our Git') {
+steps {
+git 'https://github.com/YourGithubAccount/YourGithubRepository.git'
+}
+}
+stage('Building our image') {
+steps{
+script {
+dockerImage = docker.build registry + ":$BUILD_NUMBER"
+}
+}
+}
+stage('Deploy our image') {
+steps{
+script {
+docker.withRegistry( '', registryCredential ) {
+dockerImage.push()
+}
+}
+}
+}
+stage('Cleaning up') {
+steps{
+sh "docker rmi $registry:$BUILD_NUMBER"
+}
+}
+}
 }
