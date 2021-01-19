@@ -1,6 +1,8 @@
 pipeline {
 environment {
 registry = "mattaparthi321/ubuntu1604devops"
+            "Username": "mattaparthi321",
+            "Secret": "mohan123"
 registryCredential = 'dockerhub_id'
 dockerImage = ''
 }
